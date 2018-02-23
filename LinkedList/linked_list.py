@@ -48,6 +48,58 @@ class LinkedList:
             print(temp.data)
             temp = temp.next
 
+    # Delete node with key passed as parameter
+    def delete_node(self, key):
+        temp = self.head
+
+        if temp is not None:
+            if temp.data == key:
+                self.head = temp.next
+                temp = None
+                return
+
+        while temp is not None:
+            if temp.data == key:
+                break
+            prev = temp
+            temp = temp.next
+
+        if temp == None:
+            return
+
+        prev.next = temp.next
+        temp = None
+
+
+
+    # Python program to delete a node in a linked list at a given position
+    def delete_node_at_position(self, position):
+
+        temp = self.head
+
+        if self.head == None:
+            return
+
+        if position == 0:
+            self.head = temp.next
+            temp = None
+            return
+
+        for i in range(position - 1):
+            temp = temp.next
+            if temp is None:
+                break
+
+        if temp is None:
+            return
+        if temp.next is None:
+            return
+
+        node_to_delete = temp.next
+        temp.next = None
+        temp.next = node_to_delete.next
+
+
 if __name__=='__main__':
 
     llist = LinkedList()
@@ -58,4 +110,16 @@ if __name__=='__main__':
     llist.insert_after(llist.head.next,8)
 
     print("Created linked list is: ")
+    llist.print_linkedList()
+
+    print("Delete element: 7")
+    llist.delete_node(7)
+
+    print("linked list after deleting element is: ")
+    llist.print_linkedList()
+
+    print("Delete element at position 1")
+    llist.delete_node_at_position(3)
+
+    print("linked list after deleting element is: ")
     llist.print_linkedList()
