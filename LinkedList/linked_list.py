@@ -54,6 +54,7 @@ class LinkedList:
     def delete_node(self, key):
         temp = self.head
 
+        # If deleted node is head
         if temp is not None:
             if temp.data == key:
                 self.head = temp.next
@@ -158,6 +159,7 @@ class LinkedList:
         temp2.next = temp
 
     # Find the middle of a given linked list
+    # Take 2 pointers
     def find_middle_linkList(self):
         slow_ptr = self.head
         fast_ptr = self.head
@@ -168,6 +170,8 @@ class LinkedList:
         return slow_ptr.data
 
 
+    # Take 2 pointers. Take reference point to n, then iterate main and reference ptr till reference ptr reaches end.
+    # Main ptr will return the nth node from end.
     def print_nth_element_from_last(self, n):
         main_ptr = self.head
         ref_ptr = self.head
@@ -184,6 +188,83 @@ class LinkedList:
             main_ptr = main_ptr.next
 
         return main_ptr.data
+
+
+    # Main point here is not to access next of the current pointer if current pointer is deleted
+    def delete_linkedList(self):
+        temp = self.head
+        while temp:
+            next = temp.next
+            temp = None
+            temp = next
+
+
+    # Function to reverse the linked list. Din't get the concept
+    def reverse(self):
+        prev = None
+        current = self.head
+        while (current is not None):
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        self.head = prev
+
+
+    # Check whether there is loop in linked list
+    def detect_loop(self):
+        s = set()
+        temp = self.head
+        while temp:
+            if temp in s:
+                return True
+            s.add(temp)
+            temp = temp.next
+        return False
+
+    # Move one pointer by one and other pointer by two.  If these pointers meet at some node then there is a loop.
+    # If pointers do not meet then linked list doesn’t have loop
+    def detectLoop(self):
+        slow_p = self.head
+        fast_p = self.head
+        while (slow_p and fast_p and fast_p.next):
+            slow_p = slow_p.next
+            fast_p = fast_p.next.next
+            if slow_p == fast_p:
+                return True
+        return False
+
+
+    # Merge two sorted link list
+    @staticmethod
+    def merge_sorted_link_list(list1, list2):
+        temp1 = list1.head
+        temp2 = list2.head
+        new_list = LinkedList()
+
+        while temp1 is not None or temp2 is not None:
+            if temp1 is None and temp2 is not None:
+                while temp2:
+                    new_list.insert_end(temp2.data)
+                    temp2 = temp2.next
+            elif temp2 is None and temp1 is not None:
+                while temp1:
+                    new_list.insert_end(temp1.data)
+                    temp1 = temp1.next
+            else:
+                if temp1.data > temp2.data:
+                    new_list.insert_end(temp2.data)
+                    temp2 = temp2.next
+                elif temp1.data < temp2.data:
+                    new_list.insert_end(temp1.data)
+                    temp1 = temp1.next
+                else:
+                    new_list.insert_end(temp2.data)
+                    new_list.insert_end(temp1.data)
+                    temp2 = temp2.next
+                    temp1 = temp1.next
+
+        return new_list
 
 
 if __name__=='__main__':
@@ -221,3 +302,41 @@ if __name__=='__main__':
     print("Find middle of linked list", llist.find_middle_linkList())
 
     print("Print 3rd element from last", llist.print_nth_element_from_last(3))
+
+    print("Reverse Linked list")
+    llist.reverse()
+    llist.print_linkedList()
+
+    # llist.delete_linkedList()
+
+    llist1 = LinkedList()
+    llist1.insert_at_beginning(20)
+    llist1.insert_at_beginning(15)
+    llist1.insert_at_beginning(5)
+    llist1.insert_at_beginning(2)
+
+    print("New looped linked list:")
+    llist1.print_linkedList()
+
+    llist2 = LinkedList()
+    llist2.insert_at_beginning(22)
+    llist2.insert_at_beginning(5)
+    llist2.insert_at_beginning(3)
+    llist2.insert_at_beginning(1)
+
+    print("New looped linked list:")
+    llist2.print_linkedList()
+
+    # Create a loop for testing
+    # Uncomment it to test loop
+    # llist1.head.next.next.next.next = llist1.head.next;
+
+    if (llist1.detectLoop()):
+        print("Loop found")
+    else:
+        print("No Loop ")
+
+    print("Merge two linked list: ")
+    merged_list = LinkedList.merge_sorted_link_list(llist1, llist2)
+    merged_list.print_linkedList()
+    
