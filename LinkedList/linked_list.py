@@ -200,15 +200,15 @@ class LinkedList:
 
 
     # Function to reverse the linked list. Din't get the concept
-    def reverse(self):
+    def reverse_link_list(self, list):
         prev = None
-        current = self.head
+        current = list.head
         while (current is not None):
             next = current.next
             current.next = prev
             prev = current
             current = next
-        self.head = prev
+        list.head = prev
 
 
     # Check whether there is loop in linked list
@@ -267,6 +267,61 @@ class LinkedList:
         return new_list
 
 
+    def compare_list(self, list1, list2):
+        while list1 and list2:
+            if list1.data == list2.data:
+                list1 = list1.next
+                list2 = list2.next
+            else:
+                return False
+
+        if list1 is None and list2 is None:
+            return True
+        return False
+
+
+    # Check if linked list is palindrome
+    # 1) Get the middle of the linked list.
+    # 2) Reverse the second half of the linked list.
+    # 3) Check if the first half and second half are identical.
+    # 4) Construct the original linked list by reversing the second half again and attaching it back to the first half
+    def is_palindrome(self, head):
+        slow_ptr = head
+        fast_ptr = head
+        prev_of_slow_ptr = head
+        mid_node = None
+
+        while fast_ptr and fast_ptr.next:
+            fast_ptr = fast_ptr.next.next
+            prev_of_slow_ptr = slow_ptr
+            slow_ptr = slow_ptr.next
+
+        # fast_ptr would become NULL when there are even elements in the list and not NULL for odd elements.
+        # We need to skip the middle node for odd case and store it somewhere so that we can restore the original list
+        if fast_ptr is not None:
+            mid_node = slow_ptr
+            slow_ptr = slow_ptr.next
+
+        second_half = slow_ptr
+        second_half.head = slow_ptr
+        prev_of_slow_ptr.next = None
+
+        # reverse second half
+        self.reverse_link_list(second_half)
+
+        isPalindrom = self.compare_list(head, second_half.head)
+
+        # again reverse list
+        self.reverse_link_list(second_half)
+        if mid_node is not None:
+            prev_of_slow_ptr.next = mid_node
+            mid_node.next = second_half
+        else:
+            prev_of_slow_ptr.next = second_half
+
+        return isPalindrom
+
+
 if __name__=='__main__':
 
     llist = LinkedList()
@@ -304,7 +359,7 @@ if __name__=='__main__':
     print("Print 3rd element from last", llist.print_nth_element_from_last(3))
 
     print("Reverse Linked list")
-    llist.reverse()
+    llist.reverse_link_list(llist)
     llist.print_linkedList()
 
     # llist.delete_linkedList()
@@ -339,4 +394,22 @@ if __name__=='__main__':
     print("Merge two linked list: ")
     merged_list = LinkedList.merge_sorted_link_list(llist1, llist2)
     merged_list.print_linkedList()
-    
+
+    palindromeList = LinkedList()
+    palindromeList.insert_at_beginning('a')
+    palindromeList.insert_at_beginning('b')
+    palindromeList.insert_at_beginning('d')
+    palindromeList.insert_at_beginning('c')
+    palindromeList.insert_at_beginning('d')
+    palindromeList.insert_at_beginning('b')
+    palindromeList.insert_at_beginning('a')
+
+    print("palindrome list is: ")
+    palindromeList.print_linkedList()
+    if palindromeList.is_palindrome(palindromeList.head):
+        print("List is palindrome")
+    else:
+        print("List is not palindrome")
+
+    print("palindrome list is: ")
+    palindromeList.print_linkedList()
