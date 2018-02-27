@@ -322,6 +322,59 @@ class LinkedList:
         return isPalindrom
 
 
+    # Print reverse of a Linked List without actually reversing
+    def print_reverse_list(self, current):
+        current = current
+
+        if current is None:
+            return
+
+        self.print_reverse_list(current.next)
+        print(current.data)
+
+
+    # Remove duplicates from a sorted linked list
+    def remove_duplicate_sorted_list(self):
+        current = self.head
+
+        while current.next is not None:
+            if current.data == current.next.data:
+                next_next = current.next.next;
+                current.next = None;
+                current.next = next_next;
+            else:
+                current = current.next;
+
+
+    # Remove duplicates from an unsorted linked list
+    def remove_duplicate_unsorted_list(self):
+        current = self.head
+        s = set()
+        prev = None
+
+        while current is not None:
+            if current.data in s:
+                next = current.next
+                prev.next = next
+                current = None
+                current = next
+            else:
+                s.add(current.data)
+                prev = current
+                current = current.next
+
+    # Pairwise swap elements of a given linked list
+    def pairwise_swap_elements_linklist(self):
+        current = self.head
+        while current is not None and current.next is not None:
+            temp = current.data
+            current.data = current.next.data
+            current.next.data = temp
+           # current.data, current.next.data = current.next.data, current.data
+            current = current.next.next
+
+
+
 if __name__=='__main__':
 
     llist = LinkedList()
@@ -332,7 +385,7 @@ if __name__=='__main__':
     llist.insert_end(4)
     llist.insert_after(llist.head.next,8)
 
-    print("Created linked list is: ")
+    print("Created linked list no 1 is: ")
     llist.print_linkedList()
 
     print("Delete element: 7")
@@ -358,7 +411,7 @@ if __name__=='__main__':
 
     print("Print 3rd element from last", llist.print_nth_element_from_last(3))
 
-    print("Reverse Linked list")
+    print("Reverse Linked list no 1")
     llist.reverse_link_list(llist)
     llist.print_linkedList()
 
@@ -370,8 +423,17 @@ if __name__=='__main__':
     llist1.insert_at_beginning(5)
     llist1.insert_at_beginning(2)
 
-    print("New looped linked list:")
+    # Create a loop for testing
+    # Uncomment it to test loop
+    # llist1.head.next.next.next.next = llist1.head.next;
+
+    print("New looped linked list 2:")
     llist1.print_linkedList()
+
+    if (llist1.detectLoop()):
+        print("Loop found")
+    else:
+        print("No Loop ")
 
     llist2 = LinkedList()
     llist2.insert_at_beginning(22)
@@ -379,19 +441,10 @@ if __name__=='__main__':
     llist2.insert_at_beginning(3)
     llist2.insert_at_beginning(1)
 
-    print("New looped linked list:")
+    print("New linked list no 3:")
     llist2.print_linkedList()
 
-    # Create a loop for testing
-    # Uncomment it to test loop
-    # llist1.head.next.next.next.next = llist1.head.next;
-
-    if (llist1.detectLoop()):
-        print("Loop found")
-    else:
-        print("No Loop ")
-
-    print("Merge two linked list: ")
+    print("Merge linked list: 2 & 3 ")
     merged_list = LinkedList.merge_sorted_link_list(llist1, llist2)
     merged_list.print_linkedList()
 
@@ -404,12 +457,43 @@ if __name__=='__main__':
     palindromeList.insert_at_beginning('b')
     palindromeList.insert_at_beginning('a')
 
-    print("palindrome list is: ")
+    print("palindrome list no 4 is: ")
     palindromeList.print_linkedList()
     if palindromeList.is_palindrome(palindromeList.head):
         print("List is palindrome")
     else:
         print("List is not palindrome")
 
-    print("palindrome list is: ")
-    palindromeList.print_linkedList()
+    print("Print Reverse of reverse linked list 2")
+    llist1.print_reverse_list(llist1.head)
+
+    duplicateList = LinkedList()
+    duplicateList.insert_at_beginning(11)
+    duplicateList.insert_at_beginning(11)
+    duplicateList.insert_at_beginning(11)
+    duplicateList.insert_at_beginning(22)
+    duplicateList.insert_at_beginning(43)
+    duplicateList.insert_at_beginning(43)
+    duplicateList.insert_at_beginning(54)
+
+    print("Print duplicate item sorted list")
+    duplicateList.print_linkedList()
+
+    print("Delete duplicate item from duplicate list")
+    duplicateList.remove_duplicate_sorted_list()
+    duplicateList.print_linkedList()
+
+    print("Make sorted duplicate list unsorted")
+    duplicateList.insert_at_beginning(43)
+    duplicateList.insert_at_beginning(11)
+    duplicateList.print_linkedList()
+
+    print("Delete duplicate elements from unsorted list")
+    duplicateList.remove_duplicate_unsorted_list()
+    print("List after removing duplicate items")
+    duplicateList.print_linkedList()
+
+    print("Pairwise Swap elemements")
+    duplicateList.pairwise_swap_elements_linklist()
+    duplicateList.print_linkedList()
+
