@@ -134,3 +134,15 @@ if __name__=='__main__':
     print("Delete alternate elements")
     duplicateList.delete_alternate_nodes()
     duplicateList.print_linkedList()
+
+    identicalList = LinkedList()
+    identicalList.insert_at_beginning(54)
+    identicalList.insert_at_beginning(11)
+    identicalList.insert_at_beginning(5)
+    print("Identical list to duplicate list is:")
+    identicalList.print_linkedList()
+
+    if duplicateList.areIdentical(identicalList):
+        print("Lists are identical")
+    else:
+        print("Lists are not identical")

@@ -399,3 +399,17 @@ class LinkedList:
             current.next = None
             current.next = next
             current = next
+
+
+    def areIdenticalRecur(self, head1, head2):
+
+        if head1 is None and head2 is None:
+            return True
+
+        if head1 is not None and head2 is not None:
+            return head1.data == head2.data and self.areIdenticalRecur(head1.next, head2.next)
+
+        return False
+
+    def areIdentical(self, list2):
+        return self.areIdenticalRecur(self.head, list2.head)
