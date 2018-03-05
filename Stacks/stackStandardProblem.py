@@ -77,6 +77,54 @@ class StandardProblem(Stack):
             print(str(element) + " -- " + str(next))
 
 
+    #Check concept. Currently copied paste for debugging
+    def towerOfHanoi(self, n, from_rod, to_rod, aux_rod):
+        if n == 1:
+            print("Move disk 1 from rod", from_rod, "to rod", to_rod)
+            return
+        self.towerOfHanoi(n - 1, from_rod, aux_rod, to_rod)
+        print("Move disk", n, "from rod", from_rod, "to rod", to_rod)
+        self.towerOfHanoi(n - 1, aux_rod, to_rod, from_rod)
+
+
+class Celebrity(Stack):
+    def __init__(self):
+        super().__init__()
+        self.matrix = [[0, 0, 1, 0],
+                       [0, 0, 1, 0],
+                       [0, 0, 0, 0],
+                       [0, 0, 1, 0]]
+
+    def knowsPerson(self, a, b):
+        return True if self.matrix[a][b] == 1 else False
+
+    def findCelebrity(self, n):
+        for i in range(n):
+            self.push(i)
+
+        while self.root.next is not None:
+            a = self.pop()
+            b = self.pop()
+
+            if self.knowsPerson(a, b):
+                self.push(b)
+            else:
+                self.push(a)
+
+        c = self.pop()
+
+        # Check whether c is celebrity or not
+        for i in range(n):
+            if i != c:
+                ''' If c knows any person or
+                any person doesn't know c, then c is not celebrity'''
+                if self.knowsPerson(c, i) or not self.knowsPerson(i, c):
+                    print("Celebrity not found")
+                    return -1
+        print("Celebrity found")
+        return c
+
+
 
 if __name__=='__main__':
     exp = ['{','(',')','}','[',']']
@@ -85,3 +133,10 @@ if __name__=='__main__':
 
     arr = [11, 13, 21, 3]
     paranObj.nextGreaterElement(arr)
+
+    celebrity = Celebrity()
+    print(celebrity.findCelebrity(4))
+
+    obj = StandardProblem()
+    n = 4
+    obj.towerOfHanoi(n, 'A', 'C', 'B')

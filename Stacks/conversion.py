@@ -1,7 +1,4 @@
-# Python program to convert infix expression to postfix
-# Didn't understand the concept
-
-# Class to convert the expression
+# Python program to convert infix expression to postfix, evaluate postfix
 class Conversion:
 
     # Constructor to initialize the class variables
@@ -85,8 +82,27 @@ class Conversion:
         print ("".join(self.output))
 
 
+    def postfix_evaluation(self, exp):
+        for i in exp:
+            if i.isdigit():
+                self.push(i)
+            else:
+                if len(self.array) > 1:
+                    value2 = self.pop()
+                    value1 = self.pop()
+                    result = str(eval(value1 + i + value2))
+                    self.push(result)
+        result = self.pop()
+        return result
+
+
+
 # Driver program to test above function
 if __name__=='__main__':
-    exp = "a+b*(c^d-e)^(f+g*h)-i"
-    obj = Conversion(len(exp))
-    obj.infixToPostfix(exp)
+    infixExp = "a+b*(c^d-e)^(f+g*h)-i"
+    infixObj = Conversion(len(infixExp))
+    infixObj.infixToPostfix(infixExp)
+
+    postfixExp = "231*+9-"
+    postfixObj = Conversion(len(postfixExp))
+    print(f"Result of {postfixExp} is: {postfixObj.postfix_evaluation(postfixExp)}")
