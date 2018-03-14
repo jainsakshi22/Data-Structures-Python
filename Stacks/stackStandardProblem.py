@@ -86,6 +86,40 @@ class StandardProblem(Stack):
         print("Move disk", n, "from rod", from_rod, "to rod", to_rod)
         self.towerOfHanoi(n - 1, aux_rod, to_rod, from_rod)
 
+    # Check concept. Currently copied paste for debugging
+    # First pops all stack items and stores the popped item in function call stack using recursion.
+    # And when stack becomes empty, pushes new item and all items stored in call stack
+    def insertAtBottom(self, item):
+        if self.isEmpty():
+            self.push(item)
+        else:
+            temp = self.pop()
+            self.insertAtBottom(item)
+            self.push(temp)
+
+    # Check concept. Currently copied paste for debugging
+    # Below is the function that reverses the given stack using insertAtBottom()
+    def reverse(self):
+        if not self.isEmpty():
+            temp = self.pop()
+            self.reverse()
+            self.insertAtBottom(temp)
+
+
+    def sortedInsert(self, item):
+        if self.isEmpty() or item < self.peek():
+            self.push(item)
+        else:
+            temp = self.pop()
+            self.sortedInsert(item)
+            self.push(temp)
+
+    def sortStack(self):
+        if not self.isEmpty():
+            temp = self.pop()
+            self.sortStack()
+            self.sortedInsert(temp)
+
 
 class Celebrity(Stack):
     def __init__(self):
@@ -131,12 +165,44 @@ if __name__=='__main__':
     paranObj = StandardProblem()
     paranObj.areParenthesisBalanced(exp)
 
+
     arr = [11, 13, 21, 3]
     paranObj.nextGreaterElement(arr)
+
 
     celebrity = Celebrity()
     print(celebrity.findCelebrity(4))
 
+
     obj = StandardProblem()
     n = 4
     obj.towerOfHanoi(n, 'A', 'C', 'B')
+
+
+    stackObj = StandardProblem()
+    stackObj.push(str(4))
+    stackObj.push(str(3))
+    stackObj.push(str(2))
+    stackObj.push(str(1))
+    print("Original Stack ")
+    stackObj.print_stack()
+
+    stackObj.reverse()
+    print("Reversed Stack ")
+    stackObj.print_stack()
+
+
+    sortObj = StandardProblem()
+    sortObj.push(30)
+    sortObj.push(-5)
+    sortObj.push(14)
+    sortObj.push(18)
+    sortObj.push(14)
+    sortObj.push(-3)
+    print("Original Stack ")
+    sortObj.print_stack()
+
+    sortObj.sortStack()
+
+    print("Sorted Stack ")
+    sortObj.print_stack()
