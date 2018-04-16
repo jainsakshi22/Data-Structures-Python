@@ -119,6 +119,39 @@ def printBoundary(root):
         printRightTree(root.right)
 
 
+def printSpecificLevelTraversal(root):
+    if root is None:
+        return
+
+    print(root.val)
+    if root.left is not None:
+        print(root.left.val)
+        print(root.right.val)
+
+    if root.left.left is not None:
+        q = []
+        q.append(root.left)
+        q.append(root.right)
+
+    first = None
+    second = None
+
+    while(len(q) > 0):
+        first = q.pop(0)
+        second = q.pop(0)
+
+        print(first.left.val)
+        print(second.right.val)
+        print(first.right.val)
+        print(second.left.val)
+
+        if first.left.left is not None:
+            q.append(first.left)
+            q.append(second.right)
+            q.append(first.right)
+            q.append(second.left)
+
+
 if __name__=='__main__':
     root = Node(1)
     root.left = Node(2)
@@ -155,3 +188,44 @@ if __name__=='__main__':
     root1.right.right = Node(25)
     print("Boundary traversal is: ")
     printBoundary(root1)
+
+
+    # Perfect Binary Tree of Height 4
+    root2 = Node(1)
+
+    root2.left = Node(2)
+    root2.right = Node(3)
+
+    root2.left.left = Node(4)
+    root2.left.right = Node(5)
+    root2.right.left = Node(6)
+    root2.right.right = Node(7)
+
+    root2.left.left.left = Node(8)
+    root2.left.left.right = Node(9)
+    root2.left.right.left = Node(10)
+    root2.left.right.right = Node(11)
+    root2.right.left.left = Node(12)
+    root2.right.left.right = Node(13)
+    root2.right.right.left = Node(14)
+    root2.right.right.right = Node(15)
+
+    root2.left.left.left.left = Node(16)
+    root2.left.left.left.right = Node(17)
+    root2.left.left.right.left = Node(18)
+    root2.left.left.right.right = Node(19)
+    root2.left.right.left.left = Node(20)
+    root2.left.right.left.right = Node(21)
+    root2.left.right.right.left = Node(22)
+    root2.left.right.right.right = Node(23)
+    root2.right.left.left.left = Node(24)
+    root2.right.left.left.right = Node(25)
+    root2.right.left.right.left = Node(26)
+    root2.right.left.right.right = Node(27)
+    root2.right.right.left.left = Node(28)
+    root2.right.right.left.right = Node(29)
+    root2.right.right.right.left = Node(30)
+    root2.right.right.right.right = Node(31)
+
+    print("Specfic order traversal in perfect binary tree: ")
+    printSpecificLevelTraversal(root2)
